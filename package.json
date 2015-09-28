@@ -1,0 +1,32 @@
+{
+  "name": "entitizer.entities-storage",
+  "version": "0.0.1",
+  "description": "A nodejs module for storing entities",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/entitizer/entities-storage-js.git"
+  },
+  "keywords": [
+    "entitizer",
+    "entities",
+    "entity",
+    "storage"
+  ],
+  "author": "Dumitru Cantea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/entitizer/entities-storage-js/issues"
+  },
+  "homepage": "https://github.com/entitizer/entities-storage-js",
+  "dependencies": {
+    "entitizer.utils": "^0.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
+}
