@@ -24,7 +24,9 @@
   },
   "homepage": "https://github.com/entitizer/entities-storage-js",
   "dependencies": {
-    "entitizer.utils": "^0.0.1"
+    "entitizer.utils": "^0.0.1",
+    "joi": "^6.7.1",
+    "vogels": "^2.0.0-rc10"
   },
   "devDependencies": {
     "mocha": "^2.3.3"
