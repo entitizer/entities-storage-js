@@ -26,6 +26,7 @@
   "dependencies": {
     "entitizer.utils": "^0.0.1",
     "joi": "^6.7.1",
+    "node-uuid": "^1.4.3",
     "vogels": "^2.0.0-rc10"
   },
   "devDependencies": {
