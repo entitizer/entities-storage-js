@@ -6,6 +6,7 @@
     "quotes": [2, "single"],
     "no-unused-vars": 2,
     "no-underscore-dangle": 1,
+    "camelcase": 1,
     "curly": 2,
     "valid-jsdoc": [1, {
       "requireReturn": false
