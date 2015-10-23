@@ -29,6 +29,7 @@
     "joi": "^6.7.1",
     "object-hash": "^0.9.1",
     "slug": "^0.9.1",
+    "statefulco": "0.0.1",
     "vogels": "^2.0.0-rc10"
   },
   "devDependencies": {
