@@ -8,8 +8,8 @@ var EntityName = require('../lib/entity_name');
 var Entity = require('../lib/entity');
 var assert = require('assert');
 
-var Joi = require('joi');
-console.log(Joi.string().trim().length(32).lowercase().required());
+// var Joi = require('joi');
+// console.log(Joi.string().trim().length(32).lowercase().required().invalid('a'));
 
 describe('models', function() {
 
