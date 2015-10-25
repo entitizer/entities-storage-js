@@ -8,6 +8,9 @@ var EntityName = require('../lib/entity_name');
 var Entity = require('../lib/entity');
 var assert = require('assert');
 
+var Joi = require('joi');
+console.log(Joi.string().trim().length(32).lowercase().required());
+
 describe('models', function() {
 
 	describe('Model', function() {
@@ -55,6 +58,7 @@ describe('models', function() {
 				entityId: 1,
 				name: 'me'
 			});
+			model.normalize();
 			assert.equal('EntityNameKey', model.config.name);
 			assert.equal(1, model.getData().entityId);
 			assert.equal(undefined, model.getData().name);
@@ -69,7 +73,8 @@ describe('models', function() {
 			var model = new EntityName({
 				entityId: 1,
 				name: 'me'
-			}, 'ro', 'md');
+			});
+			model.normalize('ro', 'md');
 			assert.equal('EntityName', model.config.name);
 			assert.equal(undefined, model.getData().entityId);
 			assert.equal('me', model.getData().name);
@@ -87,6 +92,7 @@ describe('models', function() {
 				lang: 'ro',
 				country: 'ro'
 			});
+			model.normalize();
 			assert.equal('Entity', model.config.name);
 			assert.equal(undefined, model.getData().entityId);
 			assert.equal('me', model.getData().name);
