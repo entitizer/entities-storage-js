@@ -4,7 +4,7 @@
   "description": "A nodejs module for storing entities",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "./node_modules/mocha/bin/mocha ./test/*-test.js",
     "lint": "eslint .",
     "docs": "jsdoc ./lib -d ./docs"
   },
@@ -33,6 +33,9 @@
     "vogels": "^2.0.0-rc10"
   },
   "devDependencies": {
+    "dynalite": "^0.16.0",
+    "leveldown": "^1.4.2",
+    "local-dynamo": "^0.1.2",
     "mocha": "^2.3.3"
   }
 }

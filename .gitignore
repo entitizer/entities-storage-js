@@ -6,6 +6,7 @@
 .env
 out
 docs
+testdb
 node_modules
 npm-debug.log
 *.tgz

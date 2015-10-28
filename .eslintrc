@@ -11,9 +11,5 @@
     "valid-jsdoc": [1, {
       "requireReturn": false
     }]
-  },
-  "globals": {
-    "describe": false,
-    "it": false
   }
 }
