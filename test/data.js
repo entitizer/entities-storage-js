@@ -20,7 +20,8 @@ var data = {
 	accessService: accessService,
 	rootControlService: new RootControlService(),
 	controlService: new ControlService(accessService),
-	createTables: require('../lib/db/create_tables')
+	createTables: require('../lib/db/create_tables'),
+	deleteTables: require('../lib/db/delete_tables')
 };
 
 module.exports = data;
