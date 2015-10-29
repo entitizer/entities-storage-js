@@ -2,7 +2,7 @@
 
 if (!process.env.AWS_REGION) {
 	module.exports = false;
-	console.log('NO ENVs');
+	console.log('To run all tests you must set ENV variables for AWS');
 	return;
 }
 
