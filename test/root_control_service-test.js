@@ -3,8 +3,12 @@
 var assert = require('assert');
 var Data = require('./data');
 
+if (!Data) {
+	return;
+}
+
 describe('RootControlService', function() {
-	this.timeout(1000 * 200);
+	this.timeout(1000 * 60);
 
 	before(function() {
 		return Data.createTables();
@@ -13,8 +17,8 @@ describe('RootControlService', function() {
 	var service = Data.rootControlService;
 
 	describe('#createEntity()', function() {
-		it('invalid entity', function(done) {
-			console.log('aici 2');
+		it('minimum entity fields', function() {
+
 			var promise = service.createEntity({
 				id: 1,
 				name: 'Name',
@@ -22,12 +26,12 @@ describe('RootControlService', function() {
 				lang: 'ro'
 			});
 
-			promise
-				.catch(done)
+			return promise
 				.then(function(entity) {
 					assert.ok(entity);
 					assert.equal(1, entity.id);
-					done();
+					assert.equal('name', entity.slug);
+					assert.equal(undefined, entity.globalId);
 				});
 		});
 	});
