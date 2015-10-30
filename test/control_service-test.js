@@ -1,6 +1,8 @@
 'use strict';
 
 var assert = require('assert');
+var utils = require('../lib/utils');
+var Promise = utils.Promise;
 var Data = require('./data');
 
 if (!Data) {
@@ -299,6 +301,43 @@ describe('ControlService', function() {
 				.then(function(updatedEntity) {
 					assert.equal(41, updatedEntity.englishWikiId);
 					assert.equal('Name 41', updatedEntity.englishWikiName);
+				});
+		});
+
+		it('should work with global entity updates *', function() {
+			return service.createEntity({
+					id: 42,
+					name: 'Name 42',
+					lang: 'en',
+					country: 'us',
+					englishWikiId: 42,
+					englishWikiName: 'Name 42'
+				})
+				.then(function(entity1) {
+					return service.createEntity({
+							id: 43,
+							name: 'Name 43',
+							lang: 'en',
+							country: 'in',
+							englishWikiId: 42,
+							englishWikiName: 'Name 42'
+						})
+						.then(function(entity2) {
+							assert.ok(entity1);
+							assert.ok(entity2);
+							assert.ok(entity2.globalId);
+							assert.equal(entity1.globalId, entity2.globalId);
+							var globalId = entity1.globalId;
+							return accessService.globalEntityById({
+									id: globalId
+								})
+								.then(function(globalEntity) {
+									assert.ok(globalEntity);
+									assert.equal(2, Object.keys(globalEntity.entities).length);
+									assert.equal(entity1.id, globalEntity.entities.en_us);
+									assert.equal(entity2.id, globalEntity.entities.en_in);
+								});
+						});
 				});
 		});
 	});
