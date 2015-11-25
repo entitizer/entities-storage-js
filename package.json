@@ -25,12 +25,14 @@
   },
   "homepage": "https://github.com/entitizer/entities-storage-js",
   "dependencies": {
-    "entitizer.utils": "^0.0.1",
-    "joi": "^6.7.1",
+    "atonic": "^1.0.4",
+    "bluebird": "^3.0.5",
+    "entitizer.utils": "^0.1.0",
+    "lodash": "^3.10.1",
     "object-hash": "^0.9.1",
     "slug": "^0.9.1",
-    "statefulco": "0.0.1",
-    "vogels": "^2.0.0-rc10"
+    "statefulco": "^0.0.1",
+    "vogels-helpers": "^0.1.2"
   },
   "devDependencies": {
     "dotenv": "^1.2.0",
