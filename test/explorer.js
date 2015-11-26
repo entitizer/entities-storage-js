@@ -1,7 +1,13 @@
 'use strict';
 
-var Explorer = require('../lib/explorer');
-var AccessService = require('../lib/access_service');
+var Data = require('./common/data');
+
+if(!Data){
+	return;
+}
+
+var Explorer = Data.Explorer;
+var AccessService = Data.AccessService;
 var assert = require('assert');
 
 describe('explorer', function() {
