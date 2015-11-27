@@ -9,8 +9,6 @@ if (!Data) {
 	return;
 }
 
-function foo() {}
-
 describe('ControlService', function() {
 	this.timeout(1000 * 60);
 
@@ -19,11 +17,13 @@ describe('ControlService', function() {
 	});
 
 	after('deleteTables', function() {
-		return Data.deleteTables('iam-sure');
+		return Data.deleteTables('iam-sure')
+			.then(function() {
+				return Promise.delay(1000 * 5);
+			});
 	});
 
 	var service = Data.controlService;
-	var accessService = Data.accessService;
 
 	describe('#createEntity()', function() {
 		it('should create entity with minimum fields', function() {
@@ -39,6 +39,26 @@ describe('ControlService', function() {
 					assert.ok(entity);
 					assert.equal(1, entity.id);
 					assert.equal('name', entity.slug);
+					assert.equal(1, entity.names.length);
+					assert.equal('name', entity.names[0].name);
+					assert.equal(entity.slug_key, entity.names[0].key);
+				});
+		});
+
+		it('should throw a dublicate entity id AND slug', function() {
+			var promise = service.createEntity({
+				id: 1,
+				name: 'Name',
+				country: 'ro',
+				lang: 'ro'
+			});
+
+			return promise
+				.catch(function(error) {
+					assert.equal('ConditionalCheckFailedException', error.code);
+				})
+				.then(function(entity) {
+					assert.equal(undefined, entity);
 				});
 		});
 
@@ -69,7 +89,7 @@ describe('ControlService', function() {
 		it('should throw a dublicate entity id error', function() {
 			var promise = service.createEntity({
 				id: 1,
-				name: 'Name',
+				name: 'Namecnu98r9u43',
 				country: 'ro',
 				lang: 'ro'
 			});
@@ -80,6 +100,21 @@ describe('ControlService', function() {
 				})
 				.then(function(entity) {
 					assert.equal(undefined, entity);
+				});
+		});
+
+		it('should NOT throw a dublicate entity slug error!!!', function() {
+			var promise = service.createEntity({
+				id: 12387283,
+				name: 'Name',
+				country: 'ro',
+				lang: 'ro'
+			});
+
+			return promise
+				.then(function(entity) {
+					assert.ok(entity);
+					assert.equal('name', entity.slug);
 				});
 		});
 
@@ -107,7 +142,9 @@ describe('ControlService', function() {
 				country: 'ro',
 				lang: 'ro',
 				englishWikiId: 4,
-				englishWikiName: 'Name 4'
+				englishWikiName: 'Name 4',
+				wikiId: 4,
+				wikiName: 'Name 4'
 			});
 
 			return promise
@@ -115,6 +152,64 @@ describe('ControlService', function() {
 					assert.ok(entity);
 					assert.equal(4, entity.id);
 					assert.ok(entity.englishWikiId, 4);
+				});
+		});
+	});
+
+	describe('#createNameKey()', function() {
+		it('should create an nameKey', function() {
+			var promise = service.createNameKey({
+				key: '12345678901234567890123456789012',
+				entityId: 1
+			});
+
+			return promise
+				.then(function(un) {
+					assert.ok(un);
+					assert.equal(1, un.entityId);
+				});
+		});
+
+		it('should throw a dublicate error', function() {
+			var promise = service.createNameKey({
+				key: '12345678901234567890123456789012',
+				entityId: 1
+			});
+
+			return promise
+				.catch(function(error) {
+					assert.equal('ConditionalCheckFailedException', error.code);
+				})
+				.then(function(un) {
+					assert.equal(undefined, un);
+				});
+		});
+
+		it('should throw a invalid error', function() {
+			var promise = service.createNameKey({
+				key: '12345678901234567890123456789012'
+			});
+
+			return promise
+				.catch(function(error) {
+					assert.ok(error);
+				})
+				.then(function(un) {
+					assert.equal(undefined, un);
+				});
+		});
+
+		it('should throw a invalid id error', function() {
+			var promise = service.createNameKey({
+				key: '123456789012345678901234567890'
+			});
+
+			return promise
+				.catch(function(error) {
+					assert.ok(error);
+				})
+				.then(function(un) {
+					assert.equal(undefined, un);
 				});
 		});
 	});
