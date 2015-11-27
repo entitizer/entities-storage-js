@@ -39,9 +39,6 @@ describe('ControlService', function() {
 					assert.ok(entity);
 					assert.equal(1, entity.id);
 					assert.equal('name', entity.slug);
-					assert.equal(1, entity.names.length);
-					assert.equal('name', entity.names[0].name);
-					assert.equal(entity.slug_key, entity.names[0].key);
 				});
 		});
 
@@ -156,10 +153,12 @@ describe('ControlService', function() {
 		});
 	});
 
-	describe('#createNameKey()', function() {
-		it('should create an nameKey', function() {
-			var promise = service.createNameKey({
-				key: '12345678901234567890123456789012',
+	describe('#createEntityName()', function() {
+		it('should create an entityName', function() {
+			var promise = service.createEntityName({
+				name: 'Name',
+				lang: 'ro',
+				country: 'ro',
 				entityId: 1
 			});
 
@@ -171,8 +170,10 @@ describe('ControlService', function() {
 		});
 
 		it('should throw a dublicate error', function() {
-			var promise = service.createNameKey({
-				key: '12345678901234567890123456789012',
+			var promise = service.createEntityName({
+				name: 'Name',
+				lang: 'ro',
+				country: 'ro',
 				entityId: 1
 			});
 
@@ -186,7 +187,7 @@ describe('ControlService', function() {
 		});
 
 		it('should throw a invalid error', function() {
-			var promise = service.createNameKey({
+			var promise = service.createEntityName({
 				key: '12345678901234567890123456789012'
 			});
 
@@ -200,8 +201,10 @@ describe('ControlService', function() {
 		});
 
 		it('should throw a invalid id error', function() {
-			var promise = service.createNameKey({
-				key: '123456789012345678901234567890'
+			var promise = service.createEntityName({
+				name: '1',
+				lang: 'ro',
+				country: 'ro'
 			});
 
 			return promise

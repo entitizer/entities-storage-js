@@ -44,10 +44,9 @@ describe('AccessService', function() {
 		return Promise.each(entities, function(entity) {
 			return controlService.createEntity(entity)
 				.then(function(dbEntity) {
-					return Promise.each(dbEntity.names, function(name) {
-						name.entityId = dbEntity.id;
-						return controlService.createNameKey(name);
-					});
+						dbEntity.entityId = dbEntity.id;
+						delete dbEntity.createdAt;
+						return controlService.createEntityName(dbEntity);
 				});
 		});
 	}
