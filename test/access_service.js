@@ -20,7 +20,11 @@ describe('AccessService', function() {
 			id: 1,
 			name: 'Name',
 			lang: 'ro',
-			country: 'ro'
+			country: 'ro',
+			names: [{
+				name: 'Nm',
+				type: 2
+			}]
 		}, {
 			id: 2,
 			name: 'Name2',
@@ -44,9 +48,15 @@ describe('AccessService', function() {
 		return Promise.each(entities, function(entity) {
 			return controlService.createEntity(entity)
 				.then(function(dbEntity) {
-						dbEntity.entityId = dbEntity.id;
-						delete dbEntity.createdAt;
-						return controlService.createEntityName(dbEntity);
+					var names = entity.names || [];
+					names.push(dbEntity);
+					delete dbEntity.createdAt;
+					return Promise.each(names, function(name) {
+						name.country = entity.country;
+						name.lang = entity.lang;
+						name.entityId = entity.id;
+						return controlService.createEntityName(name);
+					});
 				});
 		});
 	}
@@ -109,6 +119,22 @@ describe('AccessService', function() {
 			.then(function(ids) {
 				assert.ok(ids);
 				assert.equal(2, ids.length);
+			});
+	});
+
+	it('should get entity name keys by entityId', function() {
+		return accessService.entityNameKeysByEntityId(1)
+			.then(function(keys) {
+				assert.ok(keys);
+				assert.equal(2, keys.length);
+			});
+	});
+
+	it('should get entity names by entityId', function() {
+		return accessService.entityNamesByEntityId(1)
+			.then(function(names) {
+				assert.ok(names);
+				assert.equal(2, names.length);
 			});
 	});
 
