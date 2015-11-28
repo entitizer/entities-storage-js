@@ -1,6 +1,6 @@
 {
   "name": "entitizer.entities-storage",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A nodejs module for storing entities",
   "main": "./lib/index.js",
   "scripts": {
