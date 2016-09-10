@@ -159,7 +159,11 @@ describe('ControlService', function() {
 				name: 'Name',
 				lang: 'ro',
 				country: 'ro',
-				entityId: 1
+				entity: {
+					id: 1,
+					name: 'Name',
+					slug: 'name'
+				}
 			});
 
 			return promise
@@ -174,7 +178,7 @@ describe('ControlService', function() {
 				name: 'Name',
 				lang: 'ro',
 				country: 'ro',
-				entityId: 1
+				entity: { id: 1, slug: 'name', name: 'Name' }
 			});
 
 			return promise

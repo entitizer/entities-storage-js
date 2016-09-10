@@ -54,7 +54,7 @@ describe('AccessService', function() {
 					return Promise.each(names, function(name) {
 						name.country = entity.country;
 						name.lang = entity.lang;
-						name.entityId = entity.id;
+						name.entity = dbEntity;
 						return controlService.createEntityName(name);
 					});
 				});
