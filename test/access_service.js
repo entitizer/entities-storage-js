@@ -68,7 +68,7 @@ describe('AccessService', function() {
 	after('deleteTables', function() {
 		return Data.deleteTables('iam-sure')
 			.then(function() {
-				return Promise.delay(1000 * 5);
+				return Promise.delay(1000 * 10);
 			});
 	});
 
