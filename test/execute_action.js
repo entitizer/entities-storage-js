@@ -57,15 +57,26 @@ describe('ExecuteAction', function() {
 		var actionId = Data.Action.createId(Data.Action.normalizeCreate(createRusiaAction));
 		return service.executeAction(actionId)
 			.then(function(action) {
-				console.log('action', action);
+				// console.log('action', action);
 				assert.ok(action);
 				assert.equal('done', action.status);
+			});
+	});
 
-				return Data.accessService.entityById(action.entityId)
-					.then(function(entity) {
-						assert.ok(entity);
-						console.log('entity', entity);
-					});
+	it('should get created entity', function() {
+		return Data.accessService.entityById(createRusiaAction.data.id)
+			.then(function(entity) {
+				assert.ok(entity);
+				assert.equal('Rusia', entity.name);
+			});
+	});
+
+	it('should get created entity names', function() {
+		return Data.accessService.entityNamesByEntityId(createRusiaAction.data.id)
+			.then(function(names) {
+				// console.log(names);
+				assert.ok(names);
+				assert.equal(3, names.length);
 			});
 	});
 

@@ -153,6 +153,49 @@ describe('ControlService', function() {
 		});
 	});
 
+	describe('#updateEntity()', function() {
+		it('should update an entity and it`s names', function() {
+			return service.createEntity({
+				id: 666,
+				name: 'Some secret name',
+				country: 'ro',
+				lang: 'ro'
+			}).then(function(entity) {
+				assert.ok(entity);
+				// no type
+				assert.equal(false, !!entity.type);
+
+				return service.createEntityName({
+						name: 'Some secret name',
+						lang: 'ro',
+						country: 'ro',
+						entity: entity
+					})
+					.then(function(entityName) {
+						assert.ok(entityName);
+						assert.equal(entity.slug, entityName.entity.slug);
+
+						return service.updateEntity({
+								id: entity.id,
+								type: 'place',
+								country: entity.country,
+								lang: entity.lang
+							})
+							.then(function(updatedEntity) {
+								assert.ok(updatedEntity);
+								assert.equal('place', updatedEntity.type);
+
+								return Data.accessService.entityNameByKey(entityName.key)
+									.then(function(updateEntityName) {
+										assert.ok(updateEntityName);
+										assert.equal('place', updateEntityName.entity.type);
+									});
+							});
+					});
+			});
+		});
+	});
+
 	describe('#createEntityName()', function() {
 		it('should create an entityName', function() {
 			var promise = service.createEntityName({
