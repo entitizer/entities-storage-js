@@ -8,6 +8,9 @@
     "lint": "eslint .",
     "docs": "jsdoc ./lib -d ./docs"
   },
+  "engines": [
+    "node >=0.10"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/entitizer/entities-storage-js.git"
@@ -31,7 +34,7 @@
     "lodash": "^3.10.1",
     "object-hash": "0.9.5",
     "slug": "^0.9.1",
-    "statefulco": "^0.0.1",
+    "statefulco": "^0.1.0",
     "vogels-helpers": "^0.1.3"
   },
   "devDependencies": {
