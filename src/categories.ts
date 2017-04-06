@@ -1,6 +1,17 @@
-'use strict';
 
-var CATEGORIES = [{
+export function categories() {
+	return CATEGORIES;
+}
+
+export function category(id) {
+	var name = 'name';
+	if (typeof id === 'number') {
+		name = 'id';
+	}
+	return find(CATEGORIES, name, id);
+}
+
+const CATEGORIES = [{
 	id: 10,
 	name: 'politics',
 	en: 'Politics',
@@ -110,15 +121,3 @@ function find(collection, name, value) {
 		}
 	}
 }
-
-exports.all = exports.categories = function() {
-	return CATEGORIES;
-};
-
-exports.category = function(id) {
-	var name = 'name';
-	if (typeof id === 'number') {
-		name = 'id';
-	}
-	return find(CATEGORIES, name, id);
-};
