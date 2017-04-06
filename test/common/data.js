@@ -8,15 +8,12 @@ if (!process.env.AWS_REGION) {
 
 var storage = require('../../lib');
 
-var accessService = new storage.AccessService();
-var controlService = new storage.ControlService();
+var entityService = new storage.EntityService();
 var data = {
-	accessService: accessService,
-	controlService: controlService,
+	accessService: entityService,
+	controlService: entityService,
 	createTables: storage.createTables,
-	deleteTables: storage.deleteTables,
-	AccessService: storage.AccessService,
-	ControlService: storage.ControlService
+	deleteTables: storage.deleteTables
 };
 
 module.exports = data;

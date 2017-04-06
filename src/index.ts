@@ -1,6 +1,5 @@
 
-export { ControlService } from './control_service';
-export { AccessService } from './access_service';
+export { EntityService } from './entity_service';
 
 // export * from './categories';
 import * as Config from './config';
