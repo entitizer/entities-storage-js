@@ -31,7 +31,7 @@ export const EntitySchema = {
 };
 
 export const UpdateEntitySchema = {
-	id: Joi.number().integer().required(),
+	id: Joi.string().regex(/^[A-Z]{2}Q\d+$/).required(),
 	updatedAt: Joi.number().default(Date.now, 'time of updating'),
 	// wikiId: Joi.string().regex(/^Q\d+$/).required(),
 	name: Joi.string().trim().max(200).invalid(null, ''),
