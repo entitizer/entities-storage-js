@@ -1,8 +1,9 @@
 
-import { _, Promise } from './utils';
-import { UpdateEntitySchema } from './db/schemas';
+const Joi = require('joi');
+import { _, Promise } from '../utils';
+import { UpdateEntitySchema, EntitySchema } from './schemas';
 
-export const normalizeCreate = function (entity) {
+function normalizeCreate(entity) {
 	entity = _.clone(entity);
 
 	if (entity.lang) {
@@ -24,11 +25,9 @@ export const normalizeCreate = function (entity) {
 	}
 
 	return entity;
-};
+}
 
-export const normalizeUpdate = function (entity) {
-	entity = _.clone(entity);
-
+function normalizeUpdate(entity) {
 	if (entity.description) {
 		entity.description = _.trunc(entity.description.trim(), 200);
 	}
@@ -37,9 +36,9 @@ export const normalizeUpdate = function (entity) {
 	}
 
 	return entity;
-};
+}
 
-export function validateCreate(data) {
+function validateCreate(data) {
 	// if (data.englishWikiName && !data.englishWikiId || !data.englishWikiName && data.englishWikiId) {
 	// 	throw new Error('An entity must have englishWikiId AND englishWikiName');
 	// }
@@ -54,7 +53,7 @@ export function validateCreate(data) {
 	}
 }
 
-export const validateUpdate = function (data) {
+function validateUpdate(data) {
 	if (data.lang) {
 		throw new Error('lang` cannot be changed');
 	}
@@ -66,15 +65,32 @@ export const validateUpdate = function (data) {
 	// }
 }
 
-export function formatId(lang: string, wikiId: string): string {
+function formatId(lang: string, wikiId: string): string {
 	return lang.toUpperCase() + wikiId.toUpperCase();
 }
 
-export const EntityConfig = {
-	name: 'Entitizer_Entity',
-	updateSchema: UpdateEntitySchema,
-	createNormalize: normalizeCreate,
-	updateNormalize: normalizeUpdate,
-	createValidate: validateCreate,
-	updateValidate: validateUpdate
-};
+export function beforeCreate(data, next) {
+	try {
+		data = normalizeCreate(data);
+		validateCreate(data);
+		data = _.pick(data, Object.keys(EntitySchema));
+	} catch (e) {
+		return next(e);
+	}
+	next(null, data);
+}
+
+export function beforeUpdate(data, next) {
+	try {
+		data = normalizeUpdate(data);
+		validateUpdate(data);
+		data = _.pick(data, Object.keys(UpdateEntitySchema));
+		const result = Joi.validate(data, UpdateEntitySchema);
+		if (result.error) {
+			return next(result.error);
+		}
+	} catch (e) {
+		return next(e);
+	}
+	next(null, data);
+}

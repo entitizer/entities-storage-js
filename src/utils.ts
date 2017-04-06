@@ -21,3 +21,12 @@ export const Promise = require('bluebird');
 // 	return _.defaults(options || {}, defaults);
 // }
 
+export function dynamoGet(data) {
+    if (~[null, undefined].indexOf(data)) {
+        return data;
+    }
+    if (Array.isArray(data)) {
+        return data.map(dynamoGet);
+    }
+    return data.toJSON();
+}

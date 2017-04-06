@@ -1,5 +1,5 @@
 
-const vogels = require('vogels-helpers').vogels;
+const vogels = require('vogels');
 const AWS = vogels.AWS;
 import { NAMES, getModel } from './db/models';
 

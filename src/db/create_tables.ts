@@ -1,6 +1,6 @@
 
 import { Promise } from '../utils';
-const vogels = require('vogels-helpers').vogels;
+const vogels = require('vogels');
 import { NAMES } from './models';
 
 export function createTables() {

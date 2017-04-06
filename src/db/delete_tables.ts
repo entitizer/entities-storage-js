@@ -9,7 +9,6 @@ export function deleteTables(secret: string): Promise<void> {
 	}
 
 	return Promise.map(NAMES, function (name) {
-		var model = getModel(name);
-		return model.deleteTableAsync();
+		return getModel(name).deleteTableAsync();
 	});
 };

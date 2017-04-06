@@ -1,7 +1,8 @@
 
-const vogels = require('vogels-helpers');
+const vogels = require('vogels');
 import { EntitySchema } from './schemas';
-import { EntityConfig } from '../entity';
+import * as EntityHooks from './entity_hooks';
+import { Promise } from '../utils';
 
 const tablePrefix = process.env.ENTITIZER_TABLE_PREFIX;
 if (typeof tablePrefix !== 'string') {
@@ -10,12 +11,15 @@ if (typeof tablePrefix !== 'string') {
 
 export const NAMES = ['Entity'];
 
-export const Entity = vogels.define('Entitizer_Entity', {
+export const Entity = Promise.promisifyAll(vogels.define('Entitizer_Entity', {
 	tableName: [tablePrefix, 'Entities'].join('_'),
 	hashKey: 'id',
 	timestamps: false,
 	schema: EntitySchema
-}, EntityConfig);
+}));
+
+Entity.before('create', EntityHooks.beforeCreate);
+Entity.before('update', EntityHooks.beforeUpdate);
 
 export function getModel(name: string) {
 	switch (name) {

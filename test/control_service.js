@@ -54,6 +54,21 @@ describe('ControlService', function () {
 			});
 		});
 
+		it('should throw a invalid entity', function () {
+			return service.createEntity({
+				id: 'ROQ1565',
+				wikiId: 'Q1565',
+				name: 'Name',
+				lang: 'ro',
+				rank: 1,
+				wikiTitle: 1
+			}).then(function (entity) {
+				assert.equal(undefined, entity);
+			}).catch(function (error) {
+				assert.ok(error);
+			});
+		});
+
 		it('should create entity with all fields', function () {
 			return service.createEntity({
 				id: 'ROQ2',

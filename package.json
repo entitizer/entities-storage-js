@@ -35,12 +35,13 @@
   "dependencies": {
     "bluebird": "^3.0.5",
     "entitizer.models": "^0.1.1",
+    "joi": "5.x.x",
     "lodash": "^3.10.1",
-    "vogels-helpers": "^0.2.2"
+    "vogels": "^2.2.0"
   },
   "devDependencies": {
     "dotenv": "^1.2.0",
-    "@types/node": "^7.0.5",
+    "@types/node": "^7.x.x",
     "mocha": "^3.2.0",
     "typescript": "^2.2.2"
   }

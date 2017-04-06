@@ -1,6 +1,6 @@
 
-const Joi = require('vogels-helpers').Joi;
-const vogels = require('vogels-helpers').vogels;
+const Joi = require('joi');
+const vogels = require('vogels');
 import { EntityTypes } from 'entitizer.models';
 
 const ENTITY_TYPES = [EntityTypes.EVENT, EntityTypes.LOCATION, EntityTypes.ORGANIZATION, EntityTypes.PERSON, EntityTypes.PRODUCT];
