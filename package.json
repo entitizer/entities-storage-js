@@ -1,16 +1,21 @@
 {
   "name": "entitizer.entities-storage",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A nodejs module for storing entities",
   "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
-    "lint": "eslint .",
-    "docs": "jsdoc ./lib -d ./docs"
+    "pretest": "npm run tsc",
+    "test": "mocha",
+    "tsc": "tsc",
+    "tscw": "tsc -w",
+    "preversion": "npm run tsc",
+    "postversion": "git push --follow-tags",
+    "prepublish": "npm run tsc"
   },
-  "engines": [
-    "node >=0.10"
-  ],
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/entitizer/entities-storage-js.git"
@@ -39,6 +44,9 @@
   },
   "devDependencies": {
     "dotenv": "^1.2.0",
-    "mocha": "^2.3.3"
+    "@types/node": "^7.0.5",
+    "mocha": "^3.2.0",
+    "typescript": "^2.2.1"
   }
 }
+
