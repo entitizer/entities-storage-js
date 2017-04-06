@@ -1,4 +1,5 @@
 
+require('./db/models');
 import { _ } from './utils';
 const vogels = require('vogels-helpers');
 

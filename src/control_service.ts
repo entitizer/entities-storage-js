@@ -1,4 +1,6 @@
 
+require('./db/models');
+
 const vogels = require('vogels-helpers');
 
 /**

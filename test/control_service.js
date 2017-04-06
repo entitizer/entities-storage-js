@@ -9,258 +9,67 @@ if (!Data) {
 	return;
 }
 
-describe('ControlService', function() {
+describe('ControlService', function () {
 	this.timeout(1000 * 60);
 
-	before('createTables', function() {
+	before('createTables', function () {
 		return Data.createTables();
 	});
 
-	after('deleteTables', function() {
+	after('deleteTables', function () {
 		return Data.deleteTables('iam-sure')
-			.then(function() {
+			.then(function () {
 				return Promise.delay(1000 * 10);
 			});
 	});
 
 	var service = Data.controlService;
 
-	describe('#createEntity()', function() {
-		it('should create entity with minimum fields', function() {
-			var promise = service.createEntity({
-				id: 1,
+	describe('#createEntity()', function () {
+		it('should create entity with minimum fields', function () {
+			return service.createEntity({
+				id: 'ROQ1',
+				wikiId: 'Q1',
 				name: 'Name',
-				country: 'ro',
-				lang: 'ro'
+				lang: 'ro',
+				rank: 1
+			}).then(function (entity) {
+				assert.ok(entity);
+				assert.equal('ROQ1', entity.id);
+				assert.equal('Name', entity.name);
 			});
-
-			return promise
-				.then(function(entity) {
-					assert.ok(entity);
-					assert.equal(1, entity.id);
-					assert.equal('name', entity.slug);
-				});
 		});
 
-		it('should throw a dublicate entity id AND slug', function() {
-			var promise = service.createEntity({
-				id: 1,
+		it('should throw a dublicate entity id', function () {
+			return service.createEntity({
+				id: 'ROQ1',
+				wikiId: 'Q1',
 				name: 'Name',
-				country: 'ro',
-				lang: 'ro'
+				lang: 'ro',
+				rank: 1
+			}).then(function (entity) {
+				assert.equal(undefined, entity);
+			}).catch(function (error) {
+				assert.equal('ConditionalCheckFailedException', error.code);
 			});
-
-			return promise
-				.catch(function(error) {
-					assert.equal('ConditionalCheckFailedException', error.code);
-				})
-				.then(function(entity) {
-					assert.equal(undefined, entity);
-				});
 		});
 
-		it('should create entity with all fields', function() {
-			var promise = service.createEntity({
-				id: 2,
+		it('should create entity with all fields', function () {
+			return service.createEntity({
+				id: 'ROQ2',
+				wikiId: 'Q2',
 				name: 'Name 2',
 				country: 'ro',
 				lang: 'ro',
-				type: 'place',
-				region: 'us',
+				type: 'L',
 				description: 'info',
-				category: 10
-			});
-
-			return promise
-				.then(function(entity) {
-					assert.ok(entity);
-					assert.equal(2, entity.id);
-					assert.equal('name-2', entity.slug);
-					assert.equal('place', entity.type);
-					assert.equal('us', entity.region);
-					assert.equal('info', entity.description);
-					assert.equal(10, entity.category);
-				});
-		});
-
-		it('should throw a dublicate entity id error', function() {
-			var promise = service.createEntity({
-				id: 1,
-				name: 'Namecnu98r9u43',
-				country: 'ro',
-				lang: 'ro'
-			});
-
-			return promise
-				.catch(function(error) {
-					assert.equal('ConditionalCheckFailedException', error.code);
-				})
-				.then(function(entity) {
-					assert.equal(undefined, entity);
-				});
-		});
-
-		it('should NOT throw a dublicate entity slug error!!!', function() {
-			var promise = service.createEntity({
-				id: 12387283,
-				name: 'Name',
-				country: 'ro',
-				lang: 'ro'
-			});
-
-			return promise
-				.then(function(entity) {
-					assert.ok(entity);
-					assert.equal('name', entity.slug);
-				});
-		});
-
-		it('should throw an error on setting just wikiName NOT AND wikiId', function() {
-			return service.createEntity({
-					id: 3,
-					name: 'Second Name',
-					country: 'md',
-					lang: 'ro',
-					type: 'place',
-					wikiName: 'Second Name'
-				})
-				.catch(function(error) {
-					assert.ok(error);
-				})
-				.then(function(entity) {
-					assert.equal(undefined, entity);
-				});
-		});
-
-		it('should create entity with englishWikiId', function() {
-			var promise = service.createEntity({
-				id: 4,
-				name: 'Name 4',
-				country: 'ro',
-				lang: 'ro',
-				englishWikiId: 4,
-				englishWikiName: 'Name 4',
-				wikiId: 4,
-				wikiName: 'Name 4'
-			});
-
-			return promise
-				.then(function(entity) {
-					assert.ok(entity);
-					assert.equal(4, entity.id);
-					assert.ok(entity.englishWikiId, 4);
-				});
-		});
-	});
-
-	describe('#updateEntity()', function() {
-		it('should update an entity and it`s names', function() {
-			return service.createEntity({
-				id: 666,
-				name: 'Some secret name',
-				country: 'ro',
-				lang: 'ro'
-			}).then(function(entity) {
+				rank: 1
+			}).then(function (entity) {
 				assert.ok(entity);
-				// no type
-				assert.equal(false, !!entity.type);
-
-				return service.createEntityName({
-						name: 'Some secret name',
-						lang: 'ro',
-						country: 'ro',
-						entity: entity
-					})
-					.then(function(entityName) {
-						assert.ok(entityName);
-						assert.equal(entity.slug, entityName.entity.slug);
-
-						return service.updateEntity({
-								id: entity.id,
-								type: 'place',
-								country: entity.country,
-								lang: entity.lang
-							})
-							.then(function(updatedEntity) {
-								assert.ok(updatedEntity);
-								assert.equal('place', updatedEntity.type);
-
-								return Data.accessService.entityNameByKey(entityName.key)
-									.then(function(updateEntityName) {
-										assert.ok(updateEntityName);
-										assert.equal('place', updateEntityName.entity.type);
-									});
-							});
-					});
+				assert.equal('ROQ2', entity.id);
+				assert.equal('L', entity.type);
+				assert.equal('info', entity.description);
 			});
-		});
-	});
-
-	describe('#createEntityName()', function() {
-		it('should create an entityName', function() {
-			var promise = service.createEntityName({
-				name: 'Name',
-				lang: 'ro',
-				country: 'ro',
-				entity: {
-					id: 1,
-					name: 'Name',
-					slug: 'name'
-				}
-			});
-
-			return promise
-				.then(function(un) {
-					assert.ok(un);
-					assert.equal(1, un.entityId);
-				});
-		});
-
-		it('should throw a dublicate error', function() {
-			var promise = service.createEntityName({
-				name: 'Name',
-				lang: 'ro',
-				country: 'ro',
-				entity: { id: 1, slug: 'name', name: 'Name' }
-			});
-
-			return promise
-				.catch(function(error) {
-					assert.equal('ConditionalCheckFailedException', error.code);
-				})
-				.then(function(un) {
-					assert.equal(undefined, un);
-				});
-		});
-
-		it('should throw a invalid error', function() {
-			var promise = service.createEntityName({
-				key: '12345678901234567890123456789012'
-			});
-
-			return promise
-				.catch(function(error) {
-					assert.ok(error);
-				})
-				.then(function(un) {
-					assert.equal(undefined, un);
-				});
-		});
-
-		it('should throw a invalid id error', function() {
-			var promise = service.createEntityName({
-				name: '1',
-				lang: 'ro',
-				country: 'ro'
-			});
-
-			return promise
-				.catch(function(error) {
-					assert.ok(error);
-				})
-				.then(function(un) {
-					assert.equal(undefined, un);
-				});
 		});
 	});
 });

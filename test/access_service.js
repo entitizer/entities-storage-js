@@ -17,47 +17,27 @@ describe('AccessService', function() {
 
 	function createEntities() {
 		var entities = [{
-			id: 1,
+			id: 'ROQ1',
+			wikiId: 'Q1',
 			name: 'Name',
 			lang: 'ro',
-			country: 'ro',
-			names: [{
-				name: 'Nm',
-				type: 2
-			}]
+			rank: 1
 		}, {
-			id: 2,
+			id: 'ROQ2',
+			wikiId: 'Q2',
 			name: 'Name2',
 			lang: 'ro',
-			country: 'ro',
-			englishWikiId: 1,
-			englishWikiName: 'Name',
-			wikiId: 1,
-			wikiName: 'Name'
+			rank: 1
 		}, {
-			id: 3,
+			id: 'ROQ3',
+			wikiId: 'Q3',
 			name: 'Name2',
 			lang: 'ro',
-			country: 'md',
-			englishWikiId: 1,
-			englishWikiName: 'Name',
-			wikiId: 1,
-			wikiName: 'Name'
+			rank: 1
 		}];
 
 		return Promise.each(entities, function(entity) {
-			return controlService.createEntity(entity)
-				.then(function(dbEntity) {
-					var names = entity.names || [];
-					names.push(dbEntity);
-					delete dbEntity.createdAt;
-					return Promise.each(names, function(name) {
-						name.country = entity.country;
-						name.lang = entity.lang;
-						name.entity = dbEntity;
-						return controlService.createEntityName(name);
-					});
-				});
+			return controlService.createEntity(entity);
 		});
 	}
 
@@ -73,69 +53,33 @@ describe('AccessService', function() {
 	});
 
 	it('should get entity by id', function() {
-		return accessService.entityById(1)
+		return accessService.getEntityById('ROQ1')
 			.then(function(entity) {
 				assert.ok(entity);
 				assert.ok(entity.name);
-				assert.equal(1, entity.id);
+				assert.equal('ROQ1', entity.id);
 			});
 	});
 
 	it('should get entity by id, and AWS params', function() {
-		return accessService.entityById(1, {
+		return accessService.getEntityById('ROQ1', {
 				params: {
-					AttributesToGet: ['id', 'slug']
+					AttributesToGet: ['id', 'rank']
 				}
 			})
 			.then(function(entity) {
 				assert.ok(entity);
-				assert.equal(1, entity.id);
+				assert.equal('ROQ1', entity.id);
 				assert.equal(undefined, entity.name);
 				assert.equal(2, Object.keys(entity).length);
 			});
 	});
 
-	it('should get entity by unique name key', function() {
-		// key for name, ro, ro
-		return accessService.entityByKey('78593af5f20c8a08a7d3e9c4d58b58a7')
-			.then(function(entity) {
-				assert.ok(entity);
-				assert.ok(entity.name);
-				assert.equal('Name', entity.name);
-				assert.equal(1, entity.id);
-			});
-	});
-
 	it('should get entities by ids', function() {
-		return accessService.entitiesByIds([1, 2])
+		return accessService.getEntitiesByIds(['ROQ1', 'ROQ2'])
 			.then(function(entities) {
 				assert.ok(entities);
 				assert.equal(2, entities.length);
 			});
 	});
-
-	it('should get entities by english wikiId', function() {
-		return accessService.entityIdsByEnglishWikiId(1)
-			.then(function(ids) {
-				assert.ok(ids);
-				assert.equal(2, ids.length);
-			});
-	});
-
-	it('should get entity name keys by entityId', function() {
-		return accessService.entityNameKeysByEntityId(1)
-			.then(function(keys) {
-				assert.ok(keys);
-				assert.equal(2, keys.length);
-			});
-	});
-
-	it('should get entity names by entityId', function() {
-		return accessService.entityNamesByEntityId(1)
-			.then(function(names) {
-				assert.ok(names);
-				assert.equal(2, names.length);
-			});
-	});
-
 });

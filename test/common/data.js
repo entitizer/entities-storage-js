@@ -15,10 +15,6 @@ var data = {
 	controlService: controlService,
 	createTables: storage.createTables,
 	deleteTables: storage.deleteTables,
-	Entity: storage.Entity,
-	EntityName: storage.EntityName,
-	Action: storage.Action,
-	Explorer: storage.Explorer,
 	AccessService: storage.AccessService,
 	ControlService: storage.ControlService
 };

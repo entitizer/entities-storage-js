@@ -4,6 +4,9 @@ import { EntitySchema } from './schemas';
 import { EntityConfig } from '../entity';
 
 const tablePrefix = process.env.ENTITIZER_TABLE_PREFIX;
+if (typeof tablePrefix !== 'string') {
+	throw new Error('ENTITIZER_TABLE_PREFIX is required!');
+}
 
 export const NAMES = ['Entity'];
 
