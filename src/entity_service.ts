@@ -2,6 +2,7 @@
 import { PlainObject } from 'entitizer.models';
 import { dynamoGet } from './utils';
 import { Entity } from './db/models';
+import { ENTITY_FIELDS } from './db/schemas';
 
 /**
  * EntityService class
@@ -28,6 +29,9 @@ export class EntityService {
 	}
 
 	updateEntity(data: PlainObject, params?: PlainObject): Promise<PlainObject> {
+		params = params || {};
+		params.expected = params.expected || {};
+		params.expected[ENTITY_FIELDS.id] = data[ENTITY_FIELDS.id];
 		return Entity.updateAsync(data, params).then(dynamoGet);
 	}
 

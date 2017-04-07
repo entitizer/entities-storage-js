@@ -8,10 +8,9 @@ if (!process.env.AWS_REGION) {
 
 var storage = require('../../lib');
 
-var entityService = new storage.EntityService();
 var data = {
-	accessService: entityService,
-	controlService: entityService,
+	entityService: new storage.EntityService(),
+	entityNamesService: new storage.EntityNamesService(),
 	createTables: storage.createTables,
 	deleteTables: storage.deleteTables
 };
