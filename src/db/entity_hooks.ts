@@ -10,6 +10,8 @@ function normalizeCreate(entity) {
 		entity.lang = entity.lang.toUpperCase();
 	}
 
+	entity.id = formatId(entity.lang, entity.wikiId);
+
 	if (entity.description) {
 		entity.description = _.trunc(entity.description.trim(), 200);
 	}
